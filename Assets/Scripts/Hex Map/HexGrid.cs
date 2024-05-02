@@ -22,14 +22,24 @@ public class HexGrid : MonoBehaviour {
 
     HexGridChunk[] chunks;
 
+    public int seed;
+
     void Awake() {
         HexMetrics.noiseSource = noiseSource;
+        HexMetrics.InitializeHashGrid(seed);
 
         cellCountX = chunkCountX * HexMetrics.chunkSizeX;
         cellCountZ = chunkCountZ * HexMetrics.chunkSizeZ;
 
         CreateChunks();
         CreateCells();
+    }
+
+    void OnEnable() {
+        if (!HexMetrics.noiseSource) {
+            HexMetrics.noiseSource = noiseSource;
+            HexMetrics.InitializeHashGrid(seed);
+        }
     }
 
     void CreateChunks() {
@@ -51,10 +61,6 @@ public class HexGrid : MonoBehaviour {
                 CreateCell(x, z, i++);
             }
         }
-    }
-
-    void OnEnable() {
-        HexMetrics.noiseSource = noiseSource;
     }
 
     public HexCell GetCell(Vector3 position) {
