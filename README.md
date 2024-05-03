@@ -1,2 +1,2 @@
 # Hex-Map
-A procedurally generated hexagonal map with a map editor made in Unity.
+An hexagonal map with a map editor made in Unity.
