@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Project
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -1143,9 +1143,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 207.57034, y: 61.099583, z: 126.37503}
+    m_Target: {x: 6.3653812, y: 16.271135, z: -12.538581}
     speed: 2
-    m_Value: {x: 207.57034, y: 61.099583, z: 126.37503}
+    m_Value: {x: 6.3653812, y: 16.271135, z: -12.538581}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1191,13 +1191,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.5148933, y: 0.0020679433, z: -0.001231983, w: -0.85722226}
+    m_Target: {x: 0.27335104, y: 0.048260946, z: -0.013704194, w: 0.96058995}
     speed: 2
-    m_Value: {x: -0.5149059, y: 0.002067994, z: -0.0012320132, w: -0.8572433}
+    m_Value: {x: 0.27335504, y: 0.04826165, z: -0.013704394, w: 0.96060395}
   m_Size:
-    m_Target: 0.8660254
+    m_Target: 10
     speed: 2
-    m_Value: 0.8660254
+    m_Value: 10
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -1267,7 +1267,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Resources/Hex Map/Prefabs/Urban Features
     m_Globs: []
     m_OriginalText: 
     m_ImportLogFlags: 0
@@ -1275,15 +1275,15 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Resources/Hex Map/Prefabs/Urban Features
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\gonca\OneDrive\Documentos\Unity Projects\Hex Map Test
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 8c6e0000
-    m_LastClickedID: 28300
+    m_SelectedIDs: 18f40000
+    m_LastClickedID: 62488
     m_ExpandedIDs: 000000008a6e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1312,7 +1312,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000008a6e00008c6e00008e6e0000906e0000
+    m_ExpandedIDs: 000000008a6e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
