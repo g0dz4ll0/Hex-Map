@@ -5,24 +5,20 @@ public class HexGrid : MonoBehaviour {
 
     public int chunkCountX = 4, chunkCountZ = 3;
 
-    int cellCountX, cellCountZ;
-
     public Color defaultColor = Color.white;
-    public Color touchedColor = Color.magenta;
 
     public HexCell cellPrefab;
-
-    HexCell[] cells;
-
     public Text cellLabelPrefab;
-
     public HexGridChunk chunkPrefab;
 
     public Texture2D noiseSource;
 
-    HexGridChunk[] chunks;
-
     public int seed;
+
+    HexGridChunk[] chunks;
+    HexCell[] cells;
+
+    int cellCountX, cellCountZ;
 
     void Awake() {
         HexMetrics.noiseSource = noiseSource;
@@ -33,13 +29,6 @@ public class HexGrid : MonoBehaviour {
 
         CreateChunks();
         CreateCells();
-    }
-
-    void OnEnable() {
-        if (!HexMetrics.noiseSource) {
-            HexMetrics.noiseSource = noiseSource;
-            HexMetrics.InitializeHashGrid(seed);
-        }
     }
 
     void CreateChunks() {
@@ -63,10 +52,18 @@ public class HexGrid : MonoBehaviour {
         }
     }
 
+    void OnEnable() {
+        if (!HexMetrics.noiseSource) {
+            HexMetrics.noiseSource = noiseSource;
+            HexMetrics.InitializeHashGrid(seed);
+        }
+    }
+
     public HexCell GetCell(Vector3 position) {
         position = transform.InverseTransformPoint(position);
         HexCoordinates coordinates = HexCoordinates.FromPosition(position);
-        int index = coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
+        int index =
+            coordinates.X + coordinates.Z * cellCountX + coordinates.Z / 2;
         return cells[index];
     }
 
@@ -80,6 +77,12 @@ public class HexGrid : MonoBehaviour {
             return null;
         }
         return cells[x + z * cellCountX];
+    }
+
+    public void ShowUI(bool visible) {
+        for (int i = 0; i < chunks.Length; i++) {
+            chunks[i].ShowUI(visible);
+        }
     }
 
     void CreateCell(int x, int z, int i) {
@@ -130,11 +133,5 @@ public class HexGrid : MonoBehaviour {
         int localX = x - chunkX * HexMetrics.chunkSizeX;
         int localZ = z - chunkZ * HexMetrics.chunkSizeZ;
         chunk.AddCell(localX + localZ * HexMetrics.chunkSizeX, cell);
-    }
-
-    public void ShowUI(bool visible) {
-        for (int i = 0; i < chunks.Length; i++) {
-            chunks[i].ShowUI(visible);
-        }
     }
 }

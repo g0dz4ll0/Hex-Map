@@ -7,21 +7,20 @@ public class HexMapEditor : MonoBehaviour {
 
     public HexGrid hexGrid;
 
-    private Color activeColor;
-
     int activeElevation;
     int activeWaterLevel;
 
-    int activeUrbanLevel, activeFarmLevel, activePlantLevel;
+    int activeUrbanLevel, activeFarmLevel, activePlantLevel, activeSpecialIndex;
+
+    Color activeColor;
+
+    int brushSize;
 
     bool applyColor;
-
     bool applyElevation = true;
     bool applyWaterLevel = true;
 
-    bool applyUrbanLevel, applyFarmLevel, applyPlantLevel;
-
-    int brushSize;
+    bool applyUrbanLevel, applyFarmLevel, applyPlantLevel, applySpecialIndex;
 
     enum OptionalToggle {
         Ignore, Yes, No
@@ -32,6 +31,81 @@ public class HexMapEditor : MonoBehaviour {
     bool isDrag;
     HexDirection dragDirection;
     HexCell previousCell;
+
+    public void SelectColor(int index) {
+        applyColor = index >= 0;
+        if (applyColor) {
+            activeColor = colors[index];
+        }
+    }
+
+    public void SetApplyElevation(bool toggle) {
+        applyElevation = toggle;
+    }
+
+    public void SetElevation(float elevation) {
+        activeElevation = (int)elevation;
+    }
+
+    public void SetApplyWaterLevel(bool toggle) {
+        applyWaterLevel = toggle;
+    }
+
+    public void SetWaterLevel(float level) {
+        activeWaterLevel = (int)level;
+    }
+
+    public void SetApplyUrbanLevel(bool toggle) {
+        applyUrbanLevel = toggle;
+    }
+
+    public void SetUrbanLevel(float level) {
+        activeUrbanLevel = (int)level;
+    }
+
+    public void SetApplyFarmLevel(bool toggle) {
+        applyFarmLevel = toggle;
+    }
+
+    public void SetFarmLevel(float level) {
+        activeFarmLevel = (int)level;
+    }
+
+    public void SetApplyPlantLevel(bool toggle) {
+        applyPlantLevel = toggle;
+    }
+
+    public void SetPlantLevel(float level) {
+        activePlantLevel = (int)level;
+    }
+
+    public void SetBrushSize(float size) {
+        brushSize = (int)size;
+    }
+
+    public void SetRiverMode(int mode) {
+        riverMode = (OptionalToggle)mode;
+    }
+
+    public void SetRoadMode(int mode) {
+        roadMode = (OptionalToggle)mode;
+    }
+
+    public void SetWalledMode(int mode) {
+        walledMode = (OptionalToggle)mode;
+    }
+
+    public void SetApplySpecialIndex(bool toggle) {
+        applySpecialIndex = toggle;
+    }
+
+    public void SetSpecialIndex(float index) {
+        activeSpecialIndex = (int)index;
+    }
+
+    public void ShowUI(bool visible) {
+        hexGrid.ShowUI(visible);
+    }
 
     void Awake() {
         SelectColor(0);
@@ -47,10 +121,6 @@ public class HexMapEditor : MonoBehaviour {
         else {
             previousCell = null;
         }
-    }
-
-    public void SetBrushSize(float size) {
-        brushSize = (int)size;
     }
 
     void HandleInput() {
@@ -102,69 +172,6 @@ public class HexMapEditor : MonoBehaviour {
         }
     }
 
-    public void SelectColor(int index) {
-        applyColor = index >= 0;
-        if (applyColor) {
-            activeColor = colors[index];
-        }
-    }
-
-    public void SetElevation(float elevation) {
-        activeElevation = (int)elevation;
-    }
-
-    public void SetApplyElevation(bool toggle) {
-        applyElevation = toggle;
-    }
-
-    public void ShowUI(bool visible) {
-        hexGrid.ShowUI(visible);
-    }
-
-    public void SetRiverMode(int mode) {
-        riverMode = (OptionalToggle)mode;
-    }
-
-    public void SetRoadMode(int mode) {
-        roadMode = (OptionalToggle)mode;
-    }
-
-    public void SetApplyWaterLevel(bool toggle) {
-        applyWaterLevel = toggle;
-    }
-
-    public void SetWaterLevel(float level) {
-        activeWaterLevel = (int)level;
-    }
-
-    public void SetApplyUrbanLevel(bool toggle) {
-        applyUrbanLevel = toggle;
-    }
-
-    public void SetUrbanLevel(float level) {
-        activeUrbanLevel = (int)level;
-    }
-
-    public void SetApplyFarmLevel(bool toggle) {
-        applyFarmLevel = toggle;
-    }
-
-    public void SetFarmLevel(float level) {
-        activeFarmLevel = (int)level;
-    }
-
-    public void SetApplyPlantLevel(bool toggle) {
-        applyPlantLevel = toggle;
-    }
-
-    public void SetPlantLevel(float level) {
-        activePlantLevel = (int)level;
-    }
-
-    public void SetWalledMode(int mode) {
-        walledMode = (OptionalToggle)mode;
-    }
-
     void EditCell(HexCell cell)
     {
         if (cell) {
@@ -176,6 +183,9 @@ public class HexMapEditor : MonoBehaviour {
             }
             if (applyWaterLevel) {
                 cell.WaterLevel = activeWaterLevel;
+            }
+            if (applySpecialIndex) {
+                cell.SpecialIndex = activeSpecialIndex;
             }
             if (applyUrbanLevel) {
                 cell.UrbanLevel = activeUrbanLevel;

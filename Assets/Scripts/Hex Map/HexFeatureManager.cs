@@ -5,9 +5,15 @@ public class HexFeatureManager : MonoBehaviour
     public HexFeatureCollection[]
         urbanCollections, farmCollections, plantCollections;
 
-    Transform container;
-
     public HexMesh walls;
+
+    public Transform wallTower;
+
+    public Transform bridge;
+
+    public Transform[] special;
+
+    Transform container;
 
     public void Clear() { 
         if (container) {
@@ -15,7 +21,6 @@ public class HexFeatureManager : MonoBehaviour
         }
         container = new GameObject("Features Container").transform;
         container.SetParent(transform, false);
-
         walls.Clear();
     }
 
@@ -23,7 +28,26 @@ public class HexFeatureManager : MonoBehaviour
         walls.Apply();
     }
 
+    Transform PickPrefab(
+        HexFeatureCollection[] collection,
+        int level, float hash, float choice
+    ) {
+        if (level > 0) {
+            float[] thresholds = HexMetrics.GetFeatureThresholds(level - 1);
+            for (int i = 0; i < thresholds.Length; i++) {
+                if (hash < thresholds[i]) {
+                    return collection[i].Pick(choice);
+                }
+            }
+        }
+        return null;
+    }
+
     public void AddFeature (HexCell cell, Vector3 position) {
+        if (cell.IsSpecial) {
+            return;
+        }
+
         HexHash hash = HexMetrics.SampleHashGrid(position);
         Transform prefab = PickPrefab(
             urbanCollections, cell.UrbanLevel, hash.a, hash.d
@@ -56,26 +80,12 @@ public class HexFeatureManager : MonoBehaviour
         else {
             return;
         }
+
         Transform instance = Instantiate(prefab);
         position.y += instance.localScale.y * 0.5f;
         instance.localPosition = HexMetrics.Perturb(position);
         instance.localRotation = Quaternion.Euler(0f, 360f * hash.e, 0f);
         instance.SetParent(container, false);
-    }
-
-    Transform PickPrefab(
-        HexFeatureCollection[] collection,
-        int level, float hash, float choice
-    ) {
-        if (level > 0) {
-            float[] thresholds = HexMetrics.GetFeatureThresholds(level - 1);
-            for (int i = 0; i < thresholds.Length; i++) {
-                if (hash < thresholds[i]) {
-                    return collection[i].Pick(choice);
-                }
-            }
-        }
-        return null;
     }
 
     public void AddWall(
@@ -101,8 +111,40 @@ public class HexFeatureManager : MonoBehaviour
         }
     }
 
+    public void AddWall(
+        Vector3 c1, HexCell cell1,
+        Vector3 c2, HexCell cell2,
+        Vector3 c3, HexCell cell3
+    ) {
+        if (cell1.Walled) {
+            if (cell2.Walled) {
+                if (!cell3.Walled) {
+                    AddWallSegment(c3, cell3, c1, cell1, c2, cell2);
+                }
+            }
+            else if (cell3.Walled) {
+                AddWallSegment(c2, cell2, c3, cell3, c1, cell1);
+            }
+            else {
+                AddWallSegment(c1, cell1, c2, cell2, c3, cell3);
+            }
+        }
+        else if (cell2.Walled) {
+            if (cell3.Walled) {
+                AddWallSegment(c1, cell1, c2, cell2, c3, cell3);
+            }
+            else {
+                AddWallSegment(c2, cell2, c3, cell3, c1, cell1);
+            }
+        }
+        else if (cell3.Walled) {
+            AddWallSegment(c3, cell3, c1, cell1, c2, cell2);
+        }
+    }
+
     void AddWallSegment(
-        Vector3 nearLeft, Vector3 farLeft, Vector3 nearRight, Vector3 farRight  
+        Vector3 nearLeft, Vector3 farLeft, Vector3 nearRight, Vector3 farRight,
+        bool addTower = false
     ) {
         nearLeft = HexMetrics.Perturb(nearLeft);
         farLeft = HexMetrics.Perturb(farLeft);
@@ -136,6 +178,15 @@ public class HexFeatureManager : MonoBehaviour
         walls.AddQuadUnperturbed(v2, v1, v4, v3);
 
         walls.AddQuadUnperturbed(t1, t2, v3, v4);
+
+        if (addTower) {
+            Transform towerInstance = Instantiate(wallTower);
+            towerInstance.transform.localPosition = (left + right) * 0.5f;
+            Vector3 rightDirection = right - left;
+            rightDirection.y = 0f;
+            towerInstance.transform.right = rightDirection;
+            towerInstance.SetParent(container, false);
+        }
     }
 
     void AddWallSegment(
@@ -154,7 +205,14 @@ public class HexFeatureManager : MonoBehaviour
 
         if (hasLeftWall) {
             if (hasRightWall) {
-                AddWallSegment(pivot, left, pivot, right);
+                bool hasTower = false;
+                if (leftCell.Elevation == rightCell.Elevation) {
+                    HexHash hash = HexMetrics.SampleHashGrid(
+                        (pivot + left + right) * (1f / 3f)
+                    );
+                    hasTower = hash.e < HexMetrics.wallTowerThreshold;
+                }
+                AddWallSegment(pivot, left, pivot, right, hasTower);
             }
             else if (leftCell.Elevation < rightCell.Elevation) {
                 AddWallWedge(pivot, left, right);
@@ -170,37 +228,6 @@ public class HexFeatureManager : MonoBehaviour
             else {
                 AddWallCap(right, pivot);
             }
-        }
-    }
-
-    public void AddWall(
-        Vector3 c1, HexCell cell1,
-        Vector3 c2, HexCell cell2,
-        Vector3 c3, HexCell cell3
-    ) {
-        if (cell1.Walled) {
-            if (cell2.Walled) {
-                if (!cell3.Walled) {
-                    AddWallSegment(c3, cell3, c1, cell1, c2, cell2);
-                }
-            }
-            else if (cell3.Walled) {
-                AddWallSegment(c2, cell2, c3, cell3, c1, cell1);
-            }
-            else {
-                AddWallSegment(c1, cell1, c2, cell2, c3, cell3);
-            }
-        }
-        else if (cell2.Walled) {
-            if (cell3.Walled) {
-                AddWallSegment(c1, cell1, c2, cell2, c3, cell3);
-            }
-            else {
-                AddWallSegment(c2, cell2, c3, cell3, c1, cell1);
-            }
-        }
-        else if (cell3.Walled) {
-            AddWallSegment(c3, cell3, c1, cell1, c2, cell2);
         }
     }
 
@@ -238,5 +265,26 @@ public class HexFeatureManager : MonoBehaviour
         walls.AddQuadUnperturbed(v1, point, v3, pointTop);
         walls.AddQuadUnperturbed(point, v2, pointTop, v4);
         walls.AddTriangleUnperturbed(pointTop, v3, v4);
+    }
+
+    public void AddBridge(Vector3 roadCenter1, Vector3 roadCenter2) {
+        roadCenter1 = HexMetrics.Perturb(roadCenter1);
+        roadCenter2 = HexMetrics.Perturb(roadCenter2);
+        Transform instance = Instantiate(bridge);
+        instance.localPosition = (roadCenter1 + roadCenter2) * 0.5f;
+        instance.forward = roadCenter2 - roadCenter1;
+        float length = Vector3.Distance(roadCenter1, roadCenter2);
+        instance.localScale = new Vector3(
+            1f, 1f, length * (1f / HexMetrics.bridgeDesignLength)
+        );
+        instance.SetParent(container, false);
+    }
+
+    public void AddSpecialFeature(HexCell cell, Vector3 position) {
+        Transform instance = Instantiate(special[cell.SpecialIndex - 1]);
+        instance.localPosition = HexMetrics.Perturb(position);
+        HexHash hash = HexMetrics.SampleHashGrid(position);
+        instance.localRotation = Quaternion.Euler(0f, 360f * hash.e, 0f);
+        instance.SetParent(container, false);
     }
 }
