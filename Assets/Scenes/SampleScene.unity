@@ -1439,7 +1439,7 @@ GameObject:
   - component: {fileID: 141405606}
   - component: {fileID: 141405607}
   m_Layer: 5
-  m_Name: Toggle White
+  m_Name: Toggle Snow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2105,8 +2105,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000025749207, y: -10}
-  m_SizeDelta: {x: -0.000049591, y: -20}
+  m_AnchoredPosition: {x: 0.1416, y: -10}
+  m_SizeDelta: {x: 1.7653, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &186275056
 MonoBehaviour:
@@ -2141,7 +2141,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Or
+  m_Text: Stn
 --- !u!222 &186275057
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2825,8 +2825,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000020980835, y: -10}
-  m_SizeDelta: {x: -0.000059128, y: -20}
+  m_AnchoredPosition: {x: -0.0000009536743, y: -10}
+  m_SizeDelta: {x: 4.8447, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &266655272
 MonoBehaviour:
@@ -2861,7 +2861,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Gr
+  m_Text: Grs
 --- !u!222 &266655273
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3969,7 +3969,7 @@ GameObject:
   - component: {fileID: 406955046}
   - component: {fileID: 406955047}
   m_Layer: 5
-  m_Name: Toggle Yellow
+  m_Name: Toggle Sand
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4768,7 +4768,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Wh
+  m_Text: Sw
 --- !u!222 &498729959
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6099,7 +6099,7 @@ GameObject:
   - component: {fileID: 680601091}
   - component: {fileID: 680601090}
   m_Layer: 5
-  m_Name: Color Panel
+  m_Name: Textures Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8716,7 +8716,7 @@ GameObject:
   - component: {fileID: 1143495712}
   - component: {fileID: 1143495713}
   m_Layer: 5
-  m_Name: Toggle Orange
+  m_Name: Toggle Stone
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -8916,8 +8916,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.000025749207, y: -10}
-  m_SizeDelta: {x: -0.000049591, y: -20}
+  m_AnchoredPosition: {x: 0.14162, y: -10}
+  m_SizeDelta: {x: 0.28316, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1157966449
 MonoBehaviour:
@@ -8952,7 +8952,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Bl
+  m_Text: Md
 --- !u!222 &1157966450
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9201,7 +9201,7 @@ GameObject:
   - component: {fileID: 1226222511}
   - component: {fileID: 1226222512}
   m_Layer: 5
-  m_Name: Toggle Green
+  m_Name: Toggle Grass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -12654,8 +12654,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.14161968, y: -9.5}
-  m_SizeDelta: {x: 0.28317, y: -21}
+  m_AnchoredPosition: {x: 0.14159966, y: -9.5}
+  m_SizeDelta: {x: 5.8447, y: -21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1625948494
 MonoBehaviour:
@@ -12690,7 +12690,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Ye
+  m_Text: Snd
 --- !u!222 &1625948495
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -12812,7 +12812,7 @@ GameObject:
   - component: {fileID: 1667161713}
   - component: {fileID: 1667161714}
   m_Layer: 5
-  m_Name: Toggle Blue
+  m_Name: Toggle Mud
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

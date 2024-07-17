@@ -55,8 +55,6 @@ public static class HexMetrics {
 
     public const float bridgeDesignLength = 7f;
 
-    public static Color[] colors;
-
     static HexHash[] hashGrid;
 
     static Vector3[] corners = {
