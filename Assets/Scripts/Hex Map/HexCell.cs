@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.IO;
+using UnityEngine.UI;
 
 public class HexCell : MonoBehaviour {
 
@@ -214,6 +215,16 @@ public class HexCell : MonoBehaviour {
         }
     }
 
+    public int Distance {
+        get {
+            return distance;
+        }
+        set {
+            distance = value;
+            UpdateDistanceLabel();
+        }
+    }
+
     int terrainTypeIndex;
 
     int elevation = int.MinValue;
@@ -222,6 +233,7 @@ public class HexCell : MonoBehaviour {
     int urbanLevel, farmLevel, plantLevel;
 
     int specialIndex;
+    int distance;
 
     bool walled;
 
@@ -233,6 +245,11 @@ public class HexCell : MonoBehaviour {
 
     [SerializeField]
     bool[] roads;
+
+    void UpdateDistanceLabel() {
+        Text label = uiRect.GetComponent<Text>();
+        label.text = distance == int.MaxValue ? "" : distance.ToString();
+    }
 
     public HexCell GetNeighbor(HexDirection direction) {
         return neighbors[(int)direction];

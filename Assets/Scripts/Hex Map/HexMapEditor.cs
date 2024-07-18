@@ -5,6 +5,7 @@ using System.IO;
 public class HexMapEditor : MonoBehaviour {
 
     public HexGrid hexGrid;
+    public Material terrainMaterial;
 
     int activeTerrainTypeIndex;
     int activeElevation;
@@ -16,6 +17,7 @@ public class HexMapEditor : MonoBehaviour {
 
     bool applyElevation = true;
     bool applyWaterLevel = true;
+    bool editMode;
 
     bool applyUrbanLevel, applyFarmLevel, applyPlantLevel, applySpecialIndex;
 
@@ -29,7 +31,16 @@ public class HexMapEditor : MonoBehaviour {
     HexDirection dragDirection;
     HexCell previousCell;
 
-    public void SetTerrainTypeIndex (int index) {
+    void Awake() {
+        terrainMaterial.DisableKeyword("GRID_ON");
+    }
+
+    public void SetEditMode(bool toggle) {
+        editMode = toggle;
+        hexGrid.ShowUI(!toggle);
+    }
+
+    public void SetTerrainTypeIndex(int index) {
         activeTerrainTypeIndex = index;
     }
 
@@ -97,10 +108,6 @@ public class HexMapEditor : MonoBehaviour {
         activeSpecialIndex = (int)index;
     }
 
-    public void ShowUI(bool visible) {
-        hexGrid.ShowUI(visible);
-    }
-
     void Update() {
         if (
             Input.GetMouseButton(0) &&
@@ -124,7 +131,12 @@ public class HexMapEditor : MonoBehaviour {
             else {
                 isDrag = false;
             }
-            EditCells(currentCell);
+            if (editMode) {
+                EditCells(currentCell);
+            }
+            else {
+                hexGrid.FindDistanceTo(currentCell);
+            }
             previousCell = currentCell;
         }
         else {
@@ -206,6 +218,15 @@ public class HexMapEditor : MonoBehaviour {
                     }
                 }
             }
+        }
+    }
+
+    public void ShowGrid(bool visible) {
+        if (visible) {
+            terrainMaterial.EnableKeyword("GRID_ON");
+        }
+        else {
+            terrainMaterial.DisableKeyword("GRID_ON");
         }
     }
 }
