@@ -225,6 +225,18 @@ public class HexCell : MonoBehaviour {
         }
     }
 
+    public int SearchPriority {
+        get {
+            return distance + SearchHeuristic * 5;
+        }
+    }
+
+    public HexCell PathFrom { get; set; }
+
+    public int SearchHeuristic { get; set; }
+
+    public HexCell NextWithSamePriority { get; set; }
+
     int terrainTypeIndex;
 
     int elevation = int.MinValue;
@@ -245,6 +257,17 @@ public class HexCell : MonoBehaviour {
 
     [SerializeField]
     bool[] roads;
+
+    public void DisableHighlight() {
+        Image highlight = uiRect.GetChild(0).GetComponent<Image>();
+        highlight.enabled = false;
+    }
+
+    public void EnableHighlight(Color color) {
+        Image highlight = uiRect.GetChild(0).GetComponent<Image>();
+        highlight.color = color;
+        highlight.enabled = true;
+    }
 
     void UpdateDistanceLabel() {
         Text label = uiRect.GetComponent<Text>();
