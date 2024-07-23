@@ -221,7 +221,6 @@ public class HexCell : MonoBehaviour {
         }
         set {
             distance = value;
-            UpdateDistanceLabel();
         }
     }
 
@@ -236,6 +235,8 @@ public class HexCell : MonoBehaviour {
     public int SearchHeuristic { get; set; }
 
     public HexCell NextWithSamePriority { get; set; }
+
+    public int SearchPhase { get; set; }
 
     int terrainTypeIndex;
 
@@ -269,9 +270,9 @@ public class HexCell : MonoBehaviour {
         highlight.enabled = true;
     }
 
-    void UpdateDistanceLabel() {
-        Text label = uiRect.GetComponent<Text>();
-        label.text = distance == int.MaxValue ? "" : distance.ToString();
+    public void SetLabel(string text) {
+        UnityEngine.UI.Text label = uiRect.GetComponent<Text>();
+        label.text = text;
     }
 
     public HexCell GetNeighbor(HexDirection direction) {
