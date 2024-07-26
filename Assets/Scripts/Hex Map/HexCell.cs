@@ -10,6 +10,12 @@ public class HexCell : MonoBehaviour {
 
     public HexGridChunk chunk;
 
+    public bool IsVisible {
+        get {
+            return visibility > 0;
+        }
+    }
+
     public int TerrainTypeIndex {
         get {
             return terrainTypeIndex;
@@ -17,7 +23,7 @@ public class HexCell : MonoBehaviour {
         set {
             if (terrainTypeIndex != value) {
                 terrainTypeIndex = value;
-                Refresh();
+                ShaderData.RefreshTerrain(this);
             }
         }
     }
@@ -122,7 +128,6 @@ public class HexCell : MonoBehaviour {
             return transform.localPosition;
         }
     }
-
 
     public float StreamBedY {
         get {
@@ -240,6 +245,12 @@ public class HexCell : MonoBehaviour {
 
     public HexUnit Unit { get; set; }
 
+    public HexCellShaderData ShaderData { get; set; }
+
+    public int Index { get; set; }
+
+    int visibility;
+
     int terrainTypeIndex;
 
     int elevation = int.MinValue;
@@ -260,6 +271,20 @@ public class HexCell : MonoBehaviour {
 
     [SerializeField]
     bool[] roads;
+
+    public void IncreaseVisibility() {
+        visibility += 1;
+        if (visibility == 1) {
+            ShaderData.RefreshVisibility(this);
+        }
+    }
+
+    public void DecreaseVisibility() {
+        visibility -= 1;
+        if (visibility == 0) {
+            ShaderData.RefreshVisibility(this);
+        }
+    }
 
     public void DisableHighlight() {
         Image highlight = uiRect.GetChild(0).GetComponent<Image>();
@@ -484,6 +509,7 @@ public class HexCell : MonoBehaviour {
 
     public void Load(BinaryReader reader) {
         terrainTypeIndex = reader.ReadByte();
+        ShaderData.RefreshTerrain(this);
         elevation = reader.ReadByte();
         RefreshPosition();
         waterLevel = reader.ReadByte();
