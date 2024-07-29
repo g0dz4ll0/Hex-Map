@@ -12,7 +12,7 @@ public class HexCell : MonoBehaviour {
 
     public bool IsVisible {
         get {
-            return visibility > 0;
+            return visibility > 0 && Explorable;
         }
     }
 
@@ -36,7 +36,11 @@ public class HexCell : MonoBehaviour {
             if (elevation == value) {
                 return;
             }
+            int originalViewElevation = ViewElevation;
             elevation = value;
+            if (ViewElevation != originalViewElevation) {
+                ShaderData.ViewElevationChanged();
+            }
             RefreshPosition();
             ValidateRivers();
 
@@ -58,7 +62,11 @@ public class HexCell : MonoBehaviour {
             if (waterLevel == value) {
                 return;
             }
+            int originalViewElevation = ViewElevation;
             waterLevel = value;
+            if (ViewElevation != originalViewElevation) {
+                ShaderData.ViewElevationChanged();
+            }
             ValidateRivers();
             Refresh();
         }
@@ -235,6 +243,21 @@ public class HexCell : MonoBehaviour {
         }
     }
 
+    public int ViewElevation {
+        get {
+            return elevation >= waterLevel ? elevation : waterLevel;
+        }
+    }
+
+    public bool IsExplored {
+        get {
+            return explored && Explorable;
+        }
+        private set {
+            explored = value;
+        }
+    }
+
     public HexCell PathFrom { get; set; }
 
     public int SearchHeuristic { get; set; }
@@ -249,7 +272,7 @@ public class HexCell : MonoBehaviour {
 
     public int Index { get; set; }
 
-    public bool IsExplored { get; private set; }
+    public bool Explorable { get; set; }
 
     int visibility;
 
@@ -264,6 +287,8 @@ public class HexCell : MonoBehaviour {
     int distance;
 
     bool walled;
+
+    bool explored;
 
     bool hasIncomingRiver, hasOutgoingRiver;
     HexDirection incomingRiver, outgoingRiver;
@@ -285,6 +310,13 @@ public class HexCell : MonoBehaviour {
     public void DecreaseVisibility() {
         visibility -= 1;
         if (visibility == 0) {
+            ShaderData.RefreshVisibility(this);
+        }
+    }
+
+    public void ResetVisibility() {
+        if (visibility > 0) {
+            visibility = 0;
             ShaderData.RefreshVisibility(this);
         }
     }
