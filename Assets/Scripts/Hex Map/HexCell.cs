@@ -274,6 +274,8 @@ public class HexCell : MonoBehaviour {
 
     public bool Explorable { get; set; }
 
+    public int ColumnIndex { get; set; }
+
     int visibility;
 
     int terrainTypeIndex;
